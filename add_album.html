@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Add Album</h2>
+<form method="post">
+    <label>Album Title:</label><input type="text" name="albumtitle"><br>
+    <label>Release Year:</label><input type="number" name="releaseyear"><br>
+    <button type="submit">Save</button>
+</form>
+<p><em>After adding an album, you'll be able to assign bands to it.</em></p>
+{% endblock %}
