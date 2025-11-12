@@ -1,0 +1,23 @@
+{% extends "base.html" %} 
+{% block content %}
+<h2>Assign Band to Album (Collaboration)</h2>
+<form method="post" id="collaborationForm">
+  <label>Album:</label>
+  <select name="albumid">
+    <option value="">-- select album --</option>
+    {% for album in albums %}
+    <option value="{{ album.AlbumID }}">{{ album.AlbumTitle }} ({{ album.ReleaseYear }})</option>
+    {% endfor %}
+  </select><br />
+  
+  <label>Band:</label>
+  <select name="bandid">
+    <option value="">-- select band --</option>
+    {% for band in bands %}
+    <option value="{{ band.BandID }}">{{ band.BandName }}</option>
+    {% endfor %}
+  </select><br />
+  
+  <button type="submit">Save Collaboration</button>
+</form>
+{% endblock %}
