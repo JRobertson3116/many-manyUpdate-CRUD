@@ -1,0 +1,51 @@
+{% extends "base.html" %} 
+{% block content %}
+<h2>Bands</h2>
+
+{% for band in bands %}
+<section>
+  <h3>{{ band.BandName }} ({{ band.FormedYear }})</h3>
+  <p><strong>Home:</strong> {{ band.HomeLocation }}</p>
+
+  <h4>Members</h4>
+  <ul>
+    {% for m in band.memberships %}
+    <li>
+      {{ m.member.MemberName }} – {{ m.Role or m.member.MainPosition }} 
+      {% if m.StartYear %} 
+        ({{ m.StartYear }}{% if m.EndYear %} – {{ m.EndYear }}{% else %} – present{% endif %})
+      {% endif %}
+      <br>
+      <a href="{{ url_for('edit_membership', id=m.MembershipID) }}">Edit</a> |
+      <a href="{{ url_for('delete_membership', id=m.MembershipID) }}">Delete</a>
+    </li>
+    {% else %}
+    <li><em>No members assigned yet</em></li>
+    {% endfor %}
+  </ul>
+
+  <h4>Albums</h4>
+  <ul>
+    {% for collab in band.collaborations %}
+    <li>
+      {{ collab.album.AlbumTitle }} ({{ collab.album.ReleaseYear }})
+      {% set other_bands = [] %}
+      {% for other_collab in collab.album.collaborations %}
+        {% if other_collab.BandID != band.BandID %}
+          {% set _ = other_bands.append(other_collab.band.BandName) %}
+        {% endif %}
+      {% endfor %}
+      {% if other_bands %}
+        <strong>with {{ other_bands | join(', ') }}</strong>
+      {% endif %}
+      &nbsp;
+      <a href="{{ url_for('delete_collaboration', id=collab.CollaborationID) }}">Delete</a>
+    </li>
+    {% else %}
+    <li><em>No albums assigned yet</em></li>
+    {% endfor %}
+  </ul>
+</section>
+<hr />
+{% endfor %} 
+{% endblock %}
